@@ -10,7 +10,7 @@ const getUserQueryConfig = (userName) => {
     sqlTemplate`select pgp_sym_decrypt(password::bytea, ${CIPHER}) as password_plaintext, * from users where user_name=${userName}`
   );
 };
-const getAllUsersQueryConfig = (userName) => {
+const getAllUsersQueryConfig = () => {
   return getSQLConfig(sqlTemplate`select * from users`);
 };
 const createUserQueryConfig = (options) => {

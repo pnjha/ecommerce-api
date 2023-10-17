@@ -1,5 +1,3 @@
-const _ = require("lodash");
-
 function queryLog(str) {
   console.log(`executing query: ${str}`);
 }

@@ -12,7 +12,7 @@ function getConnectionPool() {
     await client.query("set search_path to public");
   });
   pool.on("error", (err) => {
-    logger.error("Database Pool Connection failed", err);
+    console.error("Database Pool Connection failed", err);
   });
   return pool;
 }

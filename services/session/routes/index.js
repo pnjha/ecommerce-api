@@ -1,14 +1,25 @@
 const express = require("express");
 const {
   addDatabaseContext,
-  validator: { valiadteNewUser, validateFetchUser, validateRoleUpdate }
+  validator: { validateUserLoginInput, validateSessionInput, validateUserLogoutInput }
 } = require("../api");
-const { addUser, getUser, updateUserRole } = require("../endpointHandler");
+const { createSession, validateSession, destroySession, destroyAllSession } = require("../endpointHandler");
 
 const router = express.Router({ mergeParams: true });
 
-router.post("/user/role/:role", addDatabaseContext, valiadteNewUser, addUser);
-router.get("/user/:user_name", addDatabaseContext, validateFetchUser, getUser);
-router.patch("/user/:user_name/role", addDatabaseContext, validateRoleUpdate, updateUserRole);
+router.post("/session/", addDatabaseContext, validateUserLoginInput, createSession);
+router.get(
+  "/session/user/:user_name/session_id/:session_id",
+  addDatabaseContext,
+  validateSessionInput,
+  validateSession
+);
+router.delete(
+  "/session/user/:user_name/session_id/:session_id",
+  addDatabaseContext,
+  validateUserLogoutInput,
+  destroySession
+);
+router.delete("/session/user/:user_name", addDatabaseContext, validateUserLogoutInput, destroyAllSession);
 
 module.exports = router;

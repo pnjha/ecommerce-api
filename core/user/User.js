@@ -6,7 +6,7 @@ class User {
     this.dbClient = options.dbClient;
     this.dbActionsProcessor = new DatabaseActions(options.dbClient);
     this.options = opts;
-    this.userName = opts.userName;
+    this.userName = opts.user_name;
   }
   async createUser() {
     const users = await this.dbActionsProcessor.getAllUsers();

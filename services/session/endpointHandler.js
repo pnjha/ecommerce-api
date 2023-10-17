@@ -1,40 +1,50 @@
 const _ = require("lodash");
 const { StatusCodes } = require("http-status-codes");
-const User = require("../../core/user/User");
+const Session = require("../../core/session/Session");
 
-async function addUser(req, res) {
+async function createSession(req, res) {
   const options = _.assign({}, req.body, req.params, req.query);
-  const user = new User(options);
+  const session = new Session(options);
   try {
-    const { user_id: userId } = await user.createUser();
-    res.status(StatusCodes.CREATED).json({ user_id: userId });
+    const { sessionId, sessionToken } = await session.createSession();
+    res.status(StatusCodes.OK).json({ session_id: sessionId, session_token: sessionToken });
   } catch (err) {
     res.status(StatusCodes.BAD_REQUEST).json({ message: err.message });
   }
 }
-async function getUser(req, res) {
-  const options = _.assign({}, req.body, req.params, req.query);
-  const user = new User(options);
+async function validateSession(req, res) {
+  const options = _.assign({}, req.body, req.params, req.query, req.headers);
+  const session = new Session(options);
   try {
-    const userInfo = await user.fetchUser();
+    const userInfo = await session.validateSession();
     res.status(StatusCodes.OK).json(userInfo);
   } catch (err) {
     res.status(StatusCodes.BAD_REQUEST).json({ message: err.message });
   }
 }
-async function updateUserRole(req, res) {
+async function destroySession(req, res) {
   const options = _.assign({}, req.body, req.params, req.query);
-  const user = new User(options);
+  const session = new Session(options);
   try {
-    await user.updateUserRole();
+    await session.destroySession();
     res.status(StatusCodes.OK).json({});
   } catch (err) {
     res.status(StatusCodes.BAD_REQUEST).json({ message: err.message });
   }
 }
-
+async function destroyAllSession(req, res) {
+  const options = _.assign({}, req.body, req.params, req.query);
+  const session = new Session(options);
+  try {
+    await session.destroyAllSession();
+    res.status(StatusCodes.OK).json({});
+  } catch (err) {
+    res.status(StatusCodes.BAD_REQUEST).json({ message: err.message });
+  }
+}
 module.exports = {
-  addUser,
-  getUser,
-  updateUserRole
+  createSession,
+  validateSession,
+  destroySession,
+  destroyAllSession
 };
