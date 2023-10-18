@@ -4,6 +4,10 @@
   "description": "Backend APIs for a simple ecommerce platform",
   "main": "index.js",
   "scripts": {
+    "start_user": "nodemon ./services/user/index.js",
+    "start_session": "nodemon ./services/session/index.js",
+    "start_product": "nodemon ./services/product/index.js",
+    "start_order": "nodemon ./services/order/index.js",
     "show-debts": "IGNORE_DEBTS=false eslint -c linter/.eslintrc.js --ignore-path linter/.eslintignore .",
     "lint": "eslint -c linter/.eslintrc.js --ignore-path linter/.eslintignore --quiet .",
     "file-lint": "eslint -c linter/.eslintrc.js --ignore-path linter/.eslintignore --quiet",
@@ -30,6 +34,7 @@
     "eslint-import-resolver-node": "^0.3.9",
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-jest": "^27.4.2",
+    "nodemon": "^3.0.1",
     "prettier": "^3.0.3"
   }
 }

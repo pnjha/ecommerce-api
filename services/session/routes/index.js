@@ -1,15 +1,20 @@
 const express = require("express");
 const {
   addDatabaseContext,
-  validator: { validateUserLoginInput, validateSessionInput, validateUserLogoutInput }
+  validator: {
+    validateUserLoginInput,
+    validateSessionInput,
+    validateUserLogoutInput,
+    validateUserLogoutAllSessionInput
+  }
 } = require("../api");
 const { createSession, validateSession, destroySession, destroyAllSession } = require("../endpointHandler");
 
 const router = express.Router({ mergeParams: true });
 
-router.post("/session/", addDatabaseContext, validateUserLoginInput, createSession);
+router.post("/session/role/:role", addDatabaseContext, validateUserLoginInput, createSession);
 router.get(
-  "/session/user/:user_name/session_id/:session_id",
+  "/session/user/:user_name/session_id/:session_id/role/:role",
   addDatabaseContext,
   validateSessionInput,
   validateSession
@@ -20,6 +25,6 @@ router.delete(
   validateUserLogoutInput,
   destroySession
 );
-router.delete("/session/user/:user_name", addDatabaseContext, validateUserLogoutInput, destroyAllSession);
+router.delete("/session/user/:user_name", addDatabaseContext, validateUserLogoutAllSessionInput, destroyAllSession);
 
 module.exports = router;

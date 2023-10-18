@@ -32,6 +32,16 @@ async function updateProduct(req, res) {
     res.status(StatusCodes.BAD_REQUEST).json({ message: err.message });
   }
 }
+async function updateProductQuantity(req, res) {
+  const options = _.assign({}, req.body, req.params, req.query, req.headers);
+  const product = new Product(options);
+  try {
+    const productInfo = await product.updateProductQuantity();
+    res.status(StatusCodes.OK).json({ product: productInfo });
+  } catch (err) {
+    res.status(StatusCodes.BAD_REQUEST).json({ message: err.message });
+  }
+}
 async function deleteProduct(req, res) {
   const options = _.assign({}, req.body, req.params, req.query, req.headers);
   const product = new Product(options);
@@ -43,4 +53,4 @@ async function deleteProduct(req, res) {
   }
 }
 
-module.exports = { addProduct, getProduct, updateProduct, deleteProduct };
+module.exports = { addProduct, getProduct, updateProduct, deleteProduct, updateProductQuantity };

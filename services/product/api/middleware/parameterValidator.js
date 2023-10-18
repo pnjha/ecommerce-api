@@ -3,7 +3,7 @@ const { StatusCodes } = require("http-status-codes");
 
 async function validateNewProduct(req, res) {
   const options = _.assign({}, req.body, req.params, req.query);
-  if (_.isEmpty(options.product_name)) {
+  if (_.isEmpty(options.name)) {
     res.status(StatusCodes.BAD_REQUEST).json({ message: "product name cannot be empty" });
   }
   if (_.isEmpty(options.product_description)) {
@@ -22,6 +22,15 @@ async function validateUpdateProduct(req, res) {
     res.status(StatusCodes.BAD_REQUEST).json({ message: "product id cannot be empty" });
   }
 }
+async function validateProductQuantityUpdate(req, res) {
+  const options = _.assign({}, req.body, req.params, req.query);
+  if (_.isEmpty(options.product_id)) {
+    res.status(StatusCodes.BAD_REQUEST).json({ message: "product id cannot be empty" });
+  }
+  if (options.quantity !== 0 && _.isEmpty(options.quantity)) {
+    res.status(StatusCodes.BAD_REQUEST).json({ message: "quantity cannot be empty" });
+  }
+}
 async function validateDeleteProduct(req, res) {
   const options = _.assign({}, req.body, req.params, req.query);
   if (_.isEmpty(options.product_id)) {
@@ -33,5 +42,6 @@ module.exports = {
   validateNewProduct,
   validateFetchProduct,
   validateUpdateProduct,
-  validateDeleteProduct
+  validateDeleteProduct,
+  validateProductQuantityUpdate
 };
