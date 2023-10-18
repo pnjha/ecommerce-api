@@ -1,10 +1,11 @@
 const _ = require("lodash");
+const { v4: uuidv4 } = require("uuid");
 const DatabaseActions = require("./db");
 
 class User {
   constructor(opts) {
-    this.dbClient = options.dbClient;
-    this.dbActionsProcessor = new DatabaseActions(options.dbClient);
+    this.dbClient = opts.dbClient;
+    this.dbActionsProcessor = new DatabaseActions(opts.dbClient);
     this.options = opts;
     this.userName = opts.user_name;
   }
@@ -18,7 +19,8 @@ class User {
     if (filteredEmails.length > 0) {
       throw new Error(`Email id ${this.options.email_id} is already registered. Please try a different email id`);
     }
-    await this.dbActionsProcessor.createUser(this.options);
+    const userId = uuidv4();
+    await this.dbActionsProcessor.createUser(userId, this.options);
   }
   async fetchUser() {
     const userInfo = await this.dbActionsProcessor.getUser(this.userName);

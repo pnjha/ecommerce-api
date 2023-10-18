@@ -17,8 +17,8 @@ class DatabaseActions {
     const { sql, values } = getAllUsersQueryConfig();
     return this.dbClient.executePreparedStatement(sql, values);
   }
-  async createUser(options) {
-    const { sql, values } = createUserQueryConfig(options);
+  async createUser(userId, options) {
+    const { sql, values } = createUserQueryConfig(userId, options);
     return this.dbClient.executePreparedStatement(sql, values);
   }
   async updateUserRole(options) {

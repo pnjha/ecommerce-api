@@ -12,7 +12,7 @@ async function createToken(options, sessionId) {
   return new Promise((resolve, reject) => {
     jwt.sign(payload, accessTokenSecret, { algorithm: "HS256", expiresIn: "10m" }, (err, token) => {
       if (err) {
-        reject(`failed to create session token with error ${err}`);
+        reject(new Error(`failed to create session token with error ${err}`));
       }
       resolve(token);
     });
@@ -22,7 +22,7 @@ async function verifyToken(token) {
   return new Promise((resolve, reject) => {
     jwt.verify(token, accessTokenSecret, (err, userInfo) => {
       if (err) {
-        reject("token is invalid");
+        reject(new Error("token is invalid"));
       }
       resolve(userInfo);
     });
